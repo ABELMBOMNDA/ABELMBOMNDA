@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @ABELMBOMNDA
-- 👀 I’m interested in WEB DEVELOPMENT
+- 👀 I’m interested in FullStack DEVELOPMENT
 - 🌱 I’m currently learning its associated languages
 - 💞️ I’m looking to collaborate 
 - 📫 You can reach me on gmail: mbomndabel6@gmail.com
