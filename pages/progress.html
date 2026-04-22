@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Progress – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+    <span class="nav-title">My Progress</span>
+  </nav>
+
+  <main class="dashboard-main">
+    <h2>Quiz History & Progress</h2>
+
+    <div id="no-history" class="hidden">
+      <p>You haven't taken any quizzes yet. <a href="dashboard.html">Start studying!</a></p>
+    </div>
+
+    <div id="history-container" class="history-list">
+
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/progress.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/quiz.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+    <span id="quizTitle" class="nav-title"></span>
+  </nav>
+
+  <main class="quiz-main">
+    <div class="quiz-progress">
+      <span id="questionCounter">Question 1 of 10</span>
+      <div class="progress-bar">
+        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <p id="questionText" class="question-text">Loading...</p>
+      <div class="answer-input-group">
+        <input type="text" id="answerInput" placeholder="Type your answer..."/>
+        <button id="submitAnswerBtn" class="btn btn-primary">Submit</button>
+      </div>
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <button id="nextQuestionBtn" class="btn btn-primary hidden">Next Question →</button>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/quiz.js"></script>
+</body>
+</html>

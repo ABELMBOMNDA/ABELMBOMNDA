@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/flashcard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+    <span id="setTitle" class="nav-title"></span>
+  </nav>
+
+  <main class="study-main">
+    <div class="study-progress">
+      <span id="cardCounter">Card 1 of 10</span>
+      <button id="shuffleBtn" class="btn btn-sm btn-secondary">Shuffle</button>
+    </div>
+
+    <!-- Flip Card -->
+    <div class="flip-card" id="flipCard">
+      <div class="flip-card-inner" id="flipCardInner">
+        <div class="flip-card-front">
+          <p id="questionText">Loading...</p>
+          <span class="flip-hint">Click to flip</span>
+        </div>
+        <div class="flip-card-back">
+          <p id="answerText"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="study-nav">
+      <button id="prevBtn" class="btn btn-secondary">← Prev</button>
+      <button id="nextBtn" class="btn btn-primary">Next →</button>
+    </div>
+
+    <div class="study-actions">
+      <a id="quizLink" href="#" class="btn btn-primary">Take Quiz</a>
+      <a href="dashboard.html" class="btn btn-ghost">Back to Dashboard</a>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/study.js"></script>
+</body>
+</html>

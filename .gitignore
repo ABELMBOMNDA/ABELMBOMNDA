@@ -1,0 +1,16 @@
+# Environment variables - NEVER commit this
+.env
+
+# Dependencies - too large to push, teammates run npm install
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/

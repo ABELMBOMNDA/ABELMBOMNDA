@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/auth.css"/>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Welcome Back</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required/>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Your password" required/>
+      </div>
+      <div id="error-msg" class="error-msg hidden"></div>
+      <button type="submit" class="btn btn-primary btn-full">Log In</button>
+    </form>
+    <p class="auth-link">
+      <a href="reset_password.html">Forgot password?</a>
+    </p>
+    <p class="auth-link">
+      Don't have an account? <a href="register.html">Sign up</a>
+    </p>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

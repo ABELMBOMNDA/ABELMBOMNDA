@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Set – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+  </nav>
+
+  <main class="form-main">
+    <h2>Edit Flashcard Set</h2>
+
+    <div class="form-group">
+      <label for="setTitle">Set Title</label>
+      <input type="text" id="setTitle" required/>
+    </div>
+    <div class="form-group">
+      <label for="setDesc">Description</label>
+      <input type="text" id="setDesc"/>
+    </div>
+
+    <h3>Cards</h3>
+    <div id="cards-container"></div>
+    <button id="addCardBtn" class="btn btn-secondary">+ Add Card</button>
+
+    <div id="error-msg" class="error-msg hidden"></div>
+
+    <div class="form-actions">
+      <button id="saveSetBtn" class="btn btn-primary">Save Changes</button>
+      <a href="dashboard.html" class="btn btn-ghost">Cancel</a>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cards-editor.js"></script>
+  <script src="../js/edit_set.js"></script>
+</body>
+</html>

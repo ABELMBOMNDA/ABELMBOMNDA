@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">🧠 NeuralCards</span>
+    <div class="nav-links">
+      <a href="progress.html">Progress</a>
+      <button id="logoutBtn" class="btn btn-secondary btn-sm">Log Out</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+    <div class="dashboard-header">
+      <h2>My Flashcard Sets</h2>
+      <div class="dashboard-actions">
+        <input type="text" id="searchInput" placeholder="Search sets..." />
+        <a href="create_set.html" class="btn btn-primary">+ Create Set</a>
+        <a href="generate_set.html" class="btn btn-secondary">✨ AI Generate</a>
+      </div>
+    </div>
+
+    <div id="sets-container" class="sets-grid">
+      <!-- Sets loaded by dashboard.js -->
+      <p id="empty-msg" class="hidden">No flashcard sets yet. Create one to get started!</p>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

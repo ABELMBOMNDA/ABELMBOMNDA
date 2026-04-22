@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Results – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/quiz.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+  </nav>
+
+  <main class="results-main">
+    <div class="results-card">
+      <h2>Quiz Complete! 🎉</h2>
+      <div class="score-display">
+        <span id="scoreText" class="score-big">0/0</span>
+        <span id="scorePercent" class="score-percent">0%</span>
+      </div>
+      <p id="scoreMessage" class="score-message"></p>
+      <div class="results-actions">
+        <a id="retakeBtn" href="#" class="btn btn-primary">Retake Quiz</a>
+        <a id="studyBtn" href="#" class="btn btn-secondary">Study Set</a>
+        <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/results.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+ .auth-container {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 40px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.auth-container h2 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  text-align: center;
+}
+.auth-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text-light);
+} 
+
+

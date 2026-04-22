@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Set – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+  </nav>
+
+  <main class="form-main">
+    <h2>Create Flashcard Set</h2>
+
+    <div class="form-group">
+      <label for="setTitle">Set Title</label>
+      <input type="text" id="setTitle" placeholder="e.g. Biology Chapter 3" required/>
+    </div>
+    <div class="form-group">
+      <label for="setDesc">Description (optional)</label>
+      <input type="text" id="setDesc" placeholder="Brief description..."/>
+    </div>
+
+    <h3>Cards</h3>
+    <div id="cards-container">
+      <!-- Cards added  -->
+    </div>
+
+    <button id="addCardBtn" class="btn btn-secondary">+ Add Card</button>
+
+    <div id="error-msg" class="error-msg hidden"></div>
+
+    <div class="form-actions">
+      <button id="saveSetBtn" class="btn btn-primary">Save Set</button>
+      <a href="dashboard.html" class="btn btn-ghost">Cancel</a>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/cards-editor.js"></script>
+  <script src="../js/create_set.js"></script>
+</body>
+</html>

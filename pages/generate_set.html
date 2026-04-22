@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Generate – NeuralCards</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">🧠 NeuralCards</a>
+  </nav>
+
+  <main class="form-main">
+    <h2>✨ AI Generate Flashcards</h2>
+    <p class="subtitle">Paste your notes below and we'll generate flashcards automatically.</p>
+
+    <!-- Step 1: Paste Notes -->
+    <div id="step-input">
+      <div class="form-group">
+        <label for="setTitle">Set Title</label>
+        <input type="text" id="setTitle" placeholder="e.g. Physics Chapter 5"/>
+      </div>
+      <div class="form-group">
+        <label for="notesInput">Your Notes</label>
+        <textarea id="notesInput" rows="10"
+          placeholder="Paste your study notes here..."></textarea>
+      </div>
+      <div id="error-msg" class="error-msg hidden"></div>
+      <button id="generateBtn" class="btn btn-primary">Generate Flashcards</button>
+      <div id="loading" class="hidden">⏳ Generating...</div>
+    </div>
+
+    <!-- Step 2: Review Generated Cards -->
+    <div id="step-review" class="hidden">
+      <h3>Review Generated Cards</h3>
+      <p>Edit or remove cards before saving.</p>
+      <div id="generated-cards-container"></div>
+      <div class="form-actions">
+        <button id="saveGeneratedBtn" class="btn btn-primary">Save Set</button>
+        <button id="regenerateBtn" class="btn btn-secondary">Try Again</button>
+      </div>
+    </div>
+  </main>
+
+
+  <script src="../js/api.js"></script>
+  <script src="../js/generate_set.js"></script>
+</body>
+</html>
