@@ -42,7 +42,7 @@ async function apiFetch(path, options = {}) {
   // Auto-refresh on 401
   if (res.status === 401 && Auth.refreshToken) {
     if (!_refreshing) {
-      _refreshing = fetch(`${API_BASE}/auth/refresh`, {
+      _refreshing = fetch(`/api/auth/refresh`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refresh_token: Auth.refreshToken }),
