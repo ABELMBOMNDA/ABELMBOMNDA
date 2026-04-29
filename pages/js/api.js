@@ -27,7 +27,7 @@ let _refreshing = null; // singleton promise to avoid parallel refresh calls
 
 async function apiFetch(path, options = {}) {
   const makeRequest = (token) =>
-    fetch(`${API_BASE}${path}`, {
+    fetch(`/api${path}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
