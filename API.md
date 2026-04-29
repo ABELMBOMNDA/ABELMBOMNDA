@@ -271,7 +271,7 @@ npm run dev
 
 Include `api-client.js` in every frontend page before your page scripts:
 ```html
-<script src="../js/api.js"></script>
+<script src="js/api.js"></script>
 ```
 
 Then use the global `NC` object:
