@@ -1,7 +1,7 @@
 // js/api.js  – NeuralCards frontend API client
 // Place this in your frontend /js/ directory and include before other scripts.
 
-const API_BASE = 'http://localhost:3000/api'; // ← update for production
+const API_BASE = 'http://beautiful-unity-production-f9a1.up.railway.app/api'; // ← update for production
 
 // ── Token storage ─────────────────────────────────────────────────────────────
 const Auth = {
