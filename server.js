@@ -6,6 +6,7 @@ const cors        = require('cors');
 const helmet      = require('helmet');
 const morgan      = require('morgan');
 const rateLimit   = require('express-rate-limit');
+const path        = require('path');
 
 // ── App ───────────────────────────────────────────────────────────────────────
 const app = express();
@@ -69,6 +70,9 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', ts: new Date() }))
 
 // ── 404 ───────────────────────────────────────────────────────────────────────
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+
+// pages
+app.use('/', (req,res) => express.static(path.join(__dirname, "pages")));
 
 // ── Global error handler ──────────────────────────────────────────────────────
 // eslint-disable-next-line no-unused-vars
