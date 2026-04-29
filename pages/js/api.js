@@ -31,6 +31,7 @@ async function apiFetch(path, options = {}) {
       ...options,
       headers: {
         'Content-Type': 'application/json',
+        'Content-Security-Policy': "default-src 'self'; connect-src 'self' http://beautiful-unity-production-f9a1.up.railway.app https://beautiful-unity-production-f9a1.up.railway.app",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(options.headers || {}),
       },
