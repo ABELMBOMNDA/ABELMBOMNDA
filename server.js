@@ -68,11 +68,12 @@ app.use('/api/ai',   require('./routes/ai'));
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => res.json({ status: 'ok', ts: new Date() }));
 
+// pages
+app.use(express.static(path.join(__dirname, "pages")));
+
 // ── 404 ───────────────────────────────────────────────────────────────────────
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 
-// pages
-app.use('/', (req,res) => express.static(path.join(__dirname, "pages")));
 
 // ── Global error handler ──────────────────────────────────────────────────────
 // eslint-disable-next-line no-unused-vars
