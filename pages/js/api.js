@@ -1,7 +1,7 @@
 // js/api.js  – NeuralCards frontend API client
 // Place this in your frontend /js/ directory and include before other scripts.
 
-const API_BASE = 'http://beautiful-unity-production-f9a1.up.railway.app/api'; // ← update for production
+const API_BASE = '/api'; // ← update for production
 
 // ── Token storage ─────────────────────────────────────────────────────────────
 const Auth = {
@@ -27,7 +27,7 @@ let _refreshing = null; // singleton promise to avoid parallel refresh calls
 
 async function apiFetch(path, options = {}) {
   const makeRequest = (token) =>
-    fetch(`/api${path}`, {
+    fetch(`${API_BASE}${path}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ async function apiFetch(path, options = {}) {
   // Auto-refresh on 401
   if (res.status === 401 && Auth.refreshToken) {
     if (!_refreshing) {
-      _refreshing = fetch(`/api/auth/refresh`, {
+      _refreshing = fetch(`${API_BASE}/auth/refresh`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refresh_token: Auth.refreshToken }),

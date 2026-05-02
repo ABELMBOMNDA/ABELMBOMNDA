@@ -91,9 +91,7 @@ Leave this terminal running while you use the app.
 
 ### 7. Open the frontend
 
-In VS Code, right-click `pages/login.html` → **Open with Live Server**.
-
-Your browser will open to `http://127.0.0.1:5500/pages/login.html`.
+Visit `http://localhost:3000/pages/login.html` to login to the app.
 
 ---
 
