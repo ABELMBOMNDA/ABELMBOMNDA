@@ -70,9 +70,10 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', ts: new Date() }))
 
 // pages
 app.use('/pages', express.static(path.join(__dirname, "pages")));
+app.use('/', (req, res) => res.redirect('/pages/login.html'));
 
 // ── 404 ───────────────────────────────────────────────────────────────────────
-app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+// app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 
 
 // ── Global error handler ──────────────────────────────────────────────────────
