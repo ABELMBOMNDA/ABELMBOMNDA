@@ -146,10 +146,9 @@ a:hover { text-decoration: underline; }
 .mode-badge {
   display: inline-block;
   padding: 4px 12px;
-  background: var(--primary);
-  color: var(--white);
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  margin-bottom: 16px;
+  float: right;
 }
+.mode-badge-tf, .mode-badge-sa { background: var(--primary); color: var(--white); }

@@ -31,10 +31,14 @@
 
       currentTfMode = !!data.set.true_false_mode;
 
+      tfIndicator.classList.remove('hidden');
       if (currentTfMode) {
-        tfIndicator.classList.remove('hidden');
+        tfIndicator.textContent = 'True / False';
+        tfIndicator.classList.add('mode-badge-tf');
         CardsEditor.setMode(true);
       } else {
+        tfIndicator.textContent = 'Short Answer';
+        tfIndicator.classList.add('mode-badge-sa');
         CardsEditor.reset();
       }
 
