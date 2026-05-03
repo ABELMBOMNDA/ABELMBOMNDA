@@ -21,16 +21,25 @@
   // ── State ─────────────────────────────────────────────────────────────────────
   let cards   = [];
   let current = 0;
+  let isTF    = false;
 
   // ── Render card ───────────────────────────────────────────────────────────────
   function showCard(index) {
     const card = cards[index];
     questionText.textContent = card.question;
-    answerText.textContent   = card.answer;
+    if (isTF && card.explanation) {
+      answerText.innerHTML = `${escHtml(card.answer)}<hr class="card-divider"/><span class="card-explanation">${escHtml(card.explanation)}</span>`;
+    } else {
+      answerText.textContent = card.answer;
+    }
     flipCard.classList.remove('flipped');
     cardCounter.textContent = `Card ${index + 1} of ${cards.length}`;
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === cards.length - 1;
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
   // ── Flip ──────────────────────────────────────────────────────────────────────
@@ -68,6 +77,7 @@
     questionText.textContent = 'Loading…';
     try {
       const data = await NC.SetsAPI.get(setId);
+      isTF  = !!data.set.true_false_mode;
       cards = data.cards;
       if (!cards.length) {
         questionText.textContent = 'This set has no cards yet.';
