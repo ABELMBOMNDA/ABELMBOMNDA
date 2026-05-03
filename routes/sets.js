@@ -14,7 +14,7 @@ router.use(authenticate);
 // ── GET /api/sets  (list user's sets, optional ?search=) ─────────────────────
 router.get('/', async (req, res) => {
   const { search } = req.query;
-  let sql    = 'SELECT s.id, s.title, s.description, s.ai_generated, s.created_at, s.updated_at, COUNT(c.id) AS card_count FROM flashcard_sets s LEFT JOIN cards c ON c.set_id = s.id WHERE s.user_id = ?';
+  let sql    = 'SELECT s.id, s.title, s.description, s.ai_generated, s.true_false_mode, s.created_at, s.updated_at, COUNT(c.id) AS card_count FROM flashcard_sets s LEFT JOIN cards c ON c.set_id = s.id WHERE s.user_id = ?';
   const params = [req.user.id];
 
   if (search) {
@@ -36,26 +36,28 @@ router.post('/',
     body('cards').isArray({ min: 1 }).withMessage('At least one card is required'),
     body('cards.*.question').trim().notEmpty().withMessage('Card question required'),
     body('cards.*.answer').trim().notEmpty().withMessage('Card answer required'),
+    body('cards.*.explanation').optional().trim().isLength({ max: 2000 }),
     body('ai_generated').optional().isBoolean(),
+    body('true_false_mode').optional().isBoolean(),
   ],
   validate,
   async (req, res) => {
-    const { title, description = '', cards, ai_generated = false } = req.body;
+    const { title, description = '', cards, ai_generated = false, true_false_mode = false } = req.body;
 
     const conn = await db.getConnection();
     try {
       await conn.beginTransaction();
 
       const [setResult] = await conn.execute(
-        'INSERT INTO flashcard_sets (user_id, title, description, ai_generated) VALUES (?, ?, ?, ?)',
-        [req.user.id, title, description, ai_generated ? 1 : 0]
+        'INSERT INTO flashcard_sets (user_id, title, description, ai_generated, true_false_mode) VALUES (?, ?, ?, ?, ?)',
+        [req.user.id, title, description, ai_generated ? 1 : 0, true_false_mode ? 1 : 0]
       );
       const setId = setResult.insertId;
 
       for (let i = 0; i < cards.length; i++) {
         await conn.execute(
-          'INSERT INTO cards (set_id, question, answer, position) VALUES (?, ?, ?, ?)',
-          [setId, cards[i].question.trim(), cards[i].answer.trim(), i]
+          'INSERT INTO cards (set_id, question, answer, explanation, position) VALUES (?, ?, ?, ?, ?)',
+          [setId, cards[i].question.trim(), cards[i].answer.trim(), cards[i].explanation?.trim() || null, i]
         );
       }
 
@@ -87,7 +89,7 @@ router.get('/:id',
     if (!sets.length) return res.status(404).json({ error: 'Set not found' });
 
     const [cards] = await db.execute(
-      'SELECT id, question, answer, position FROM cards WHERE set_id = ? ORDER BY position',
+      'SELECT id, question, answer, explanation, position FROM cards WHERE set_id = ? ORDER BY position',
       [req.params.id]
     );
     return res.json({ set: sets[0], cards });
@@ -103,11 +105,13 @@ router.put('/:id',
     body('cards').isArray({ min: 1 }),
     body('cards.*.question').trim().notEmpty(),
     body('cards.*.answer').trim().notEmpty(),
+    body('cards.*.explanation').optional().trim().isLength({ max: 2000 }),
+    body('true_false_mode').optional().isBoolean(),
   ],
   validate,
   async (req, res) => {
     const setId = req.params.id;
-    const { title, description = '', cards } = req.body;
+    const { title, description = '', cards, true_false_mode } = req.body;
 
     const [existing] = await db.execute(
       'SELECT id FROM flashcard_sets WHERE id = ? AND user_id = ?',
@@ -119,17 +123,24 @@ router.put('/:id',
     try {
       await conn.beginTransaction();
 
-      await conn.execute(
-        'UPDATE flashcard_sets SET title = ?, description = ? WHERE id = ?',
-        [title, description, setId]
-      );
+      if (true_false_mode !== undefined) {
+        await conn.execute(
+          'UPDATE flashcard_sets SET title = ?, description = ?, true_false_mode = ? WHERE id = ?',
+          [title, description, true_false_mode ? 1 : 0, setId]
+        );
+      } else {
+        await conn.execute(
+          'UPDATE flashcard_sets SET title = ?, description = ? WHERE id = ?',
+          [title, description, setId]
+        );
+      }
 
       // Replace all cards (simpler than diffing)
       await conn.execute('DELETE FROM cards WHERE set_id = ?', [setId]);
       for (let i = 0; i < cards.length; i++) {
         await conn.execute(
-          'INSERT INTO cards (set_id, question, answer, position) VALUES (?, ?, ?, ?)',
-          [setId, cards[i].question.trim(), cards[i].answer.trim(), i]
+          'INSERT INTO cards (set_id, question, answer, explanation, position) VALUES (?, ?, ?, ?, ?)',
+          [setId, cards[i].question.trim(), cards[i].answer.trim(), cards[i].explanation?.trim() || null, i]
         );
       }
 
