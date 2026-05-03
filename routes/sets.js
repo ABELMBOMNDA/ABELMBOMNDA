@@ -64,7 +64,7 @@ router.post('/',
       await conn.commit();
 
       const [newSet] = await conn.execute(
-        'SELECT id, title, description, ai_generated, created_at FROM flashcard_sets WHERE id = ?',
+        'SELECT id, title, description, ai_generated, true_false_mode, created_at FROM flashcard_sets WHERE id = ?',
         [setId]
       );
       return res.status(201).json({ set: newSet[0] });
