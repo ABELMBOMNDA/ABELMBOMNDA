@@ -111,3 +111,49 @@ a:hover { text-decoration: underline; }
 .form-main h3 { margin: 24px 0 12px; }
 .form-actions { display: flex; gap: 12px; margin-top: 24px; }
 .subtitle { color: var(--text-light); margin-bottom: 20px; font-size: 14px; }
+
+/* ===== True/False card editor toggle ===== */
+.tf-toggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.tf-opt {
+  padding: 8px 24px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.tf-opt:hover { border-color: var(--primary); color: var(--primary); }
+.tf-opt.tf-selected { background: var(--primary); border-color: var(--primary); color: var(--white); }
+
+/* ===== Mode toggle group (create/edit pages) ===== */
+.mode-toggle-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--secondary);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.mode-toggle-group input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
+.mode-toggle-group .toggle-label { font-weight: 600; font-size: 14px; cursor: pointer; }
+.mode-toggle-group .hint { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+/* ===== TF mode badge (edit page) ===== */
+.mode-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
