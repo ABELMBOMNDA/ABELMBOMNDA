@@ -126,8 +126,8 @@ const QuizAPI = {
 
 // ── AI API ────────────────────────────────────────────────────────────────────
 const AIAPI = {
-  generate(notes, count = 10) {
-    return apiFetch('/ai/generate', { method: 'POST', body: { notes, count } });
+  generate(notes, count = 10, true_false = false) {
+    return apiFetch('/ai/generate', { method: 'POST', body: { notes, count, true_false } });
   },
 };
 

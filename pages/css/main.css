@@ -136,7 +136,7 @@ a:hover { text-decoration: underline; }
 .btn-tf-mode {
   background: var(--secondary);
   color: var(--primary);
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 .btn-tf-mode:hover { background: #e0dcfd; }
 .btn-tf-mode-active { background: var(--primary); color: var(--white); }
