@@ -132,19 +132,15 @@ a:hover { text-decoration: underline; }
 .tf-opt:hover { border-color: var(--primary); color: var(--primary); }
 .tf-opt.tf-selected { background: var(--primary); border-color: var(--primary); color: var(--white); }
 
-/* ===== Mode toggle group (create/edit pages) ===== */
-.mode-toggle-group {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px 16px;
+/* ===== TF mode toggle button (create/generate pages) ===== */
+.btn-tf-mode {
   background: var(--secondary);
-  border-radius: var(--radius);
+  color: var(--primary);
   margin-bottom: 20px;
 }
-.mode-toggle-group input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
-.mode-toggle-group .toggle-label { font-weight: 600; font-size: 14px; cursor: pointer; }
-.mode-toggle-group .hint { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.btn-tf-mode:hover { background: #e0dcfd; }
+.btn-tf-mode-active { background: var(--primary); color: var(--white); }
+.btn-tf-mode-active:hover { background: var(--primary-dark); }
 
 /* ===== TF mode badge (edit page) ===== */
 .mode-badge {

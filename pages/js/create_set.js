@@ -3,9 +3,10 @@
 (function () {
   if (!NC.requireAuth()) return;
 
-  const errorMsg  = document.getElementById('error-msg');
-  const addCardBtn = document.getElementById('addCardBtn');
-  const saveSetBtn = document.getElementById('saveSetBtn');
+  const errorMsg    = document.getElementById('error-msg');
+  const addCardBtn  = document.getElementById('addCardBtn');
+  const saveSetBtn  = document.getElementById('saveSetBtn');
+  const tfToggle    = document.getElementById('tfModeToggle');
 
   function showError(msg) {
     errorMsg.textContent = msg;
@@ -19,10 +20,22 @@
   CardsEditor.addCard();
   CardsEditor.addCard();
 
+  // ── Mode toggle ───────────────────────────────────────────────────────────────
+  let tfActive = false;
+
+  tfToggle.addEventListener('click', () => {
+    const existing = CardsEditor.getCards().filter(c => c.question);
+    if (existing.length && !confirm('Switching mode will reset all cards. Continue?')) return;
+    tfActive = !tfActive;
+    tfToggle.classList.toggle('btn-tf-mode-active', tfActive);
+    CardsEditor.setMode(tfActive);
+    CardsEditor.addCard();
+    CardsEditor.addCard();
+  });
+
   // ── Add card ──────────────────────────────────────────────────────────────────
   addCardBtn.addEventListener('click', () => {
     CardsEditor.addCard();
-    // Focus the new question field
     const rows = document.querySelectorAll('.card-row');
     const last = rows[rows.length - 1];
     if (last) last.querySelector('.card-question').focus();
@@ -31,8 +44,10 @@
   // ── Save ──────────────────────────────────────────────────────────────────────
   saveSetBtn.addEventListener('click', async () => {
     hideError();
-    const title = document.getElementById('setTitle').value.trim();
-    const desc  = document.getElementById('setDesc').value.trim();
+    const title      = document.getElementById('setTitle').value.trim();
+    const desc       = document.getElementById('setDesc').value.trim();
+    const isTrueFalse = tfActive;
+
     if (!title) { showError('Please enter a set title.'); return; }
 
     const cards = CardsEditor.getCards();
@@ -44,7 +59,7 @@
     saveSetBtn.disabled = true;
     saveSetBtn.textContent = 'Saving…';
     try {
-      await NC.SetsAPI.create({ title, description: desc, cards, ai_generated: false });
+      await NC.SetsAPI.create({ title, description: desc, cards, ai_generated: false, true_false_mode: isTrueFalse });
       window.location.href = 'dashboard.html';
     } catch (err) {
       showError(err.message || 'Failed to save set. Please try again.');
