@@ -32,7 +32,8 @@ CREATE TABLE flashcard_sets (
   user_id     INT UNSIGNED        NOT NULL,
   title       VARCHAR(200)        NOT NULL,
   description TEXT                NULL,
-  ai_generated TINYINT(1)         NOT NULL DEFAULT 0,
+  ai_generated     TINYINT(1)      NOT NULL DEFAULT 0,
+  true_false_mode  TINYINT(1)      NOT NULL DEFAULT 0,
   created_at  DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_sets_user FOREIGN KEY (user_id)
@@ -48,6 +49,7 @@ CREATE TABLE cards (
   set_id      INT UNSIGNED        NOT NULL,
   question    TEXT                NOT NULL,
   answer      TEXT                NOT NULL,
+  explanation TEXT                NULL,
   position    SMALLINT UNSIGNED   NOT NULL DEFAULT 0,   -- ordering within set
   created_at  DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
