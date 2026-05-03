@@ -7,9 +7,12 @@
   const setId  = parseInt(params.get('id'));
   if (!setId) { window.location.href = 'dashboard.html'; return; }
 
-  const errorMsg   = document.getElementById('error-msg');
-  const addCardBtn = document.getElementById('addCardBtn');
-  const saveSetBtn = document.getElementById('saveSetBtn');
+  const errorMsg      = document.getElementById('error-msg');
+  const addCardBtn    = document.getElementById('addCardBtn');
+  const saveSetBtn    = document.getElementById('saveSetBtn');
+  const tfIndicator   = document.getElementById('tfModeIndicator');
+
+  let currentTfMode = false;
 
   function showError(msg) {
     errorMsg.textContent = msg;
@@ -26,9 +29,17 @@
       document.getElementById('setDesc').value  = data.set.description || '';
       document.title = `Edit: ${data.set.title} – NeuralCards`;
 
-      CardsEditor.reset();
+      currentTfMode = !!data.set.true_false_mode;
+
+      if (currentTfMode) {
+        tfIndicator.classList.remove('hidden');
+        CardsEditor.setMode(true);
+      } else {
+        CardsEditor.reset();
+      }
+
       if (data.cards.length) {
-        data.cards.forEach(c => CardsEditor.addCard(c.question, c.answer));
+        data.cards.forEach(c => CardsEditor.addCard(c.question, c.answer, c.explanation || ''));
       } else {
         CardsEditor.addCard();
       }
@@ -61,7 +72,7 @@
     saveSetBtn.disabled = true;
     saveSetBtn.textContent = 'Saving…';
     try {
-      await NC.SetsAPI.update(setId, { title, description: desc, cards });
+      await NC.SetsAPI.update(setId, { title, description: desc, cards, true_false_mode: currentTfMode });
       window.location.href = 'dashboard.html';
     } catch (err) {
       showError(err.message || 'Failed to save changes. Please try again.');
