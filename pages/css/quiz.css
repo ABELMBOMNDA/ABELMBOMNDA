@@ -59,6 +59,28 @@
 .feedback.correct { background: #dcfce7; color: #16a34a; }
 .feedback.wrong   { background: #fee2e2; color: #dc2626; }
 
+/* True/False quiz buttons */
+.tf-quiz-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+.tf-quiz-btn {
+  flex: 1;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.tf-quiz-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.tf-quiz-btn:disabled { opacity: 0.5; cursor: default; }
+.tf-quiz-btn.tf-quiz-selected { background: var(--primary); border-color: var(--primary); color: var(--white); }
+
 /* Results */
 .results-main {
   max-width: 480px;

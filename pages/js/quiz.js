@@ -8,20 +8,24 @@
   if (!setId) { window.location.href = 'dashboard.html'; return; }
 
   // ── DOM refs ──────────────────────────────────────────────────────────────────
-  const quizTitle      = document.getElementById('quizTitle');
+  const quizTitle       = document.getElementById('quizTitle');
   const questionCounter = document.getElementById('questionCounter');
-  const progressFill   = document.getElementById('progressFill');
-  const questionText   = document.getElementById('questionText');
-  const answerInput    = document.getElementById('answerInput');
-  const submitBtn      = document.getElementById('submitAnswerBtn');
-  const feedback       = document.getElementById('feedback');
-  const nextBtn        = document.getElementById('nextQuestionBtn');
+  const progressFill    = document.getElementById('progressFill');
+  const questionText    = document.getElementById('questionText');
+  const answerInput     = document.getElementById('answerInput');
+  const submitBtn       = document.getElementById('submitAnswerBtn');
+  const tfButtonGroup   = document.getElementById('tfButtonGroup');
+  const trueBtn         = document.getElementById('trueBtn');
+  const falseBtn        = document.getElementById('falseBtn');
+  const feedback        = document.getElementById('feedback');
+  const nextBtn         = document.getElementById('nextQuestionBtn');
 
   // ── State ─────────────────────────────────────────────────────────────────────
-  let cards    = [];
-  let current  = 0;
-  let answers  = [];   // { card_id, user_answer, is_correct }
+  let cards     = [];
+  let current   = 0;
+  let answers   = [];
   let submitted = false;
+  let isTF      = false;
 
   // ── Helpers ───────────────────────────────────────────────────────────────────
   function normalize(str) {
@@ -29,7 +33,7 @@
   }
 
   function updateProgress() {
-    const pct = ((current) / cards.length) * 100;
+    const pct = (current / cards.length) * 100;
     progressFill.style.width = pct + '%';
     questionCounter.textContent = `Question ${current + 1} of ${cards.length}`;
   }
@@ -37,51 +41,91 @@
   function showQuestion() {
     const card = cards[current];
     questionText.textContent = card.question;
-    answerInput.value = '';
-    answerInput.disabled = false;
     feedback.className = 'feedback hidden';
     feedback.textContent = '';
-    submitBtn.classList.remove('hidden');
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Submit';
     nextBtn.classList.add('hidden');
     submitted = false;
     updateProgress();
-    answerInput.focus();
+
+    if (isTF) {
+      answerInput.classList.add('hidden');
+      submitBtn.classList.add('hidden');
+      tfButtonGroup.classList.remove('hidden');
+      trueBtn.disabled  = false;
+      falseBtn.disabled = false;
+      trueBtn.classList.remove('tf-quiz-selected');
+      falseBtn.classList.remove('tf-quiz-selected');
+    } else {
+      answerInput.value = '';
+      answerInput.disabled = false;
+      answerInput.classList.remove('hidden');
+      submitBtn.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+      tfButtonGroup.classList.add('hidden');
+      answerInput.focus();
+    }
   }
 
-  // ── Submit answer ──────────────────────────────────────────────────────────────
-  function handleSubmit() {
+  // ── Handle answer (shared logic) ──────────────────────────────────────────────
+  function handleAnswer(userAnswer) {
     if (submitted) return;
     const card       = cards[current];
-    const userAnswer = answerInput.value.trim();
-    if (!userAnswer) { answerInput.focus(); return; }
-
     const is_correct = normalize(userAnswer) === normalize(card.answer);
     answers.push({ card_id: card.id, user_answer: userAnswer, is_correct });
 
-    // Show feedback
     submitted = true;
-    answerInput.disabled = true;
-    submitBtn.classList.add('hidden');
-
     feedback.classList.remove('hidden');
-    if (is_correct) {
-      feedback.className = 'feedback correct';
-      feedback.textContent = '✓ Correct!';
+
+    if (isTF) {
+      trueBtn.disabled  = true;
+      falseBtn.disabled = true;
+      if (is_correct) {
+        feedback.className = 'feedback correct';
+        feedback.textContent = `Correct! — ${card.explanation || ''}`;
+      } else {
+        feedback.className = 'feedback wrong';
+        feedback.textContent = `Incorrect. The answer is ${card.answer}. — ${card.explanation || ''}`;
+      }
     } else {
-      feedback.className = 'feedback wrong';
-      feedback.textContent = `✗ Incorrect. The answer was: ${card.answer}`;
+      answerInput.disabled = true;
+      submitBtn.classList.add('hidden');
+      if (is_correct) {
+        feedback.className = 'feedback correct';
+        feedback.textContent = 'Correct!';
+      } else {
+        feedback.className = 'feedback wrong';
+        feedback.textContent = `Incorrect. The answer was: ${card.answer}`;
+      }
     }
 
-    // Show Next / Finish
     nextBtn.classList.remove('hidden');
     nextBtn.textContent = current < cards.length - 1 ? 'Next Question →' : 'Finish Quiz';
   }
 
-  submitBtn.addEventListener('click', handleSubmit);
+  // ── Standard mode submit ──────────────────────────────────────────────────────
+  submitBtn.addEventListener('click', () => {
+    const userAnswer = answerInput.value.trim();
+    if (!userAnswer) { answerInput.focus(); return; }
+    handleAnswer(userAnswer);
+  });
+
   answerInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleSubmit();
+    if (e.key === 'Enter') {
+      const userAnswer = answerInput.value.trim();
+      if (!userAnswer) return;
+      handleAnswer(userAnswer);
+    }
+  });
+
+  // ── TF mode buttons ───────────────────────────────────────────────────────────
+  trueBtn.addEventListener('click', () => {
+    trueBtn.classList.add('tf-quiz-selected');
+    handleAnswer('True');
+  });
+  falseBtn.addEventListener('click', () => {
+    falseBtn.classList.add('tf-quiz-selected');
+    handleAnswer('False');
   });
 
   // ── Next question / Finish ────────────────────────────────────────────────────
@@ -100,7 +144,6 @@
     nextBtn.textContent = 'Saving…';
     try {
       const result = await NC.QuizAPI.submitAttempt(setId, answers);
-      // Pass results to results page via sessionStorage
       sessionStorage.setItem('nc_last_result', JSON.stringify({
         score:   result.score,
         total:   result.total,
@@ -120,18 +163,19 @@
     questionText.textContent = 'Loading…';
     try {
       const data = await NC.SetsAPI.get(setId);
+      isTF  = !!data.set.true_false_mode;
       cards = data.cards;
       if (!cards.length) {
         questionText.textContent = 'This set has no cards. Add some first!';
         submitBtn.classList.add('hidden');
         return;
       }
-      // Shuffle cards for each quiz attempt
+      // Shuffle
       for (let i = cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[j]] = [cards[j], cards[i]];
       }
-      quizTitle.textContent  = data.set.title;
+      quizTitle.textContent = data.set.title;
       document.title = `Quiz: ${data.set.title} – NeuralCards`;
       showQuestion();
     } catch (err) {
