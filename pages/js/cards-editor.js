@@ -79,6 +79,7 @@ window.CardsEditor = (function () {
       const labels = row.querySelectorAll('label');
       labels[0].textContent = `Question ${i + 1}`;
       labels[1].textContent = `Answer ${i + 1}`;
+      if (tfMode && labels[2]) labels[2].textContent = `Explanation ${i + 1}`;
     });
     cardCount = container.querySelectorAll('.card-row').length;
   }
