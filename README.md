@@ -4,6 +4,8 @@ AI-powered flashcard study app built for COSC 412 – Software Engineering, Tows
 
 Students can manually create flashcard sets, generate them automatically from notes using the ChatGPT API, quiz themselves, and track their progress over time.
 
+You can access the project at <https://neuralcards.ndy.sh>
+
 ---
 
 ## Team Members
@@ -60,6 +62,7 @@ DB_PASSWORD=your_mysql_root_password
 JWT_SECRET=any_long_random_string
 JWT_REFRESH_SECRET=a_different_long_random_string
 OPENAI_API_KEY=sk-your-openai-key-here
+CORS_ORIGINS=http://localhost:3000
 ```
 
 
